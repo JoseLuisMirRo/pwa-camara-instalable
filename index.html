@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Inspección Visual PWA</title>
+
+  <!-- Fase 1: instalabilidad -->
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#0f172a">
+  <!-- iOS prioriza esta etiqueta para el ícono de la pantalla de inicio -->
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="barra">
+    <h1>Inspección Visual</h1>
+    <!-- Oculto hasta que el navegador dispare beforeinstallprompt (Android/Chrome) -->
+    <button id="btn-instalar" type="button" class="btn btn-secundario" hidden>Instalar App</button>
+  </header>
+
+  <main class="contenedor">
+    <!-- Guía manual para iPhone: iOS nunca dispara beforeinstallprompt -->
+    <section id="instrucciones-ios" class="tarjeta tarjeta-info" hidden>
+      <h2>Instalar en iPhone</h2>
+      <p>Para instalar en iPhone, pulsa el icono <strong>Compartir</strong> y selecciona <strong>"Agregar a inicio"</strong>.</p>
+    </section>
+
+    <section class="tarjeta">
+      <div class="visor">
+        <!-- autoplay + playsinline + muted: obligatorio para que iOS no abra el reproductor a pantalla completa -->
+        <video id="visor-camara" autoplay playsinline muted></video>
+        <p id="visor-vacio" class="visor-vacio">Cámara apagada</p>
+      </div>
+
+      <p id="mensaje-estado" class="estado" role="status" aria-live="polite">Cámara apagada.</p>
+
+      <div class="acciones">
+        <button id="btn-preparar-camara" type="button" class="btn btn-primario">Solicitar Acceso a Cámara</button>
+        <button id="btn-alternar-camara" type="button" class="btn btn-secundario" disabled>Cambiar Cámara</button>
+        <button id="btn-apagar-camara" type="button" class="btn btn-peligro" disabled>Apagar Cámara</button>
+      </div>
+    </section>
+
+    <!-- Pre-permiso: se muestra ANTES de llamar a getUserMedia() -->
+    <section id="aviso-permiso" class="tarjeta tarjeta-aviso" hidden>
+      <h2>Antes de encender la cámara</h2>
+      <p>Esta aplicación requiere acceso a tu cámara únicamente para mostrar una vista previa local en pantalla. Ninguna imagen se envía a servidores externos.</p>
+      <p>Se encenderá la cámara <strong id="aviso-lente">trasera</strong>. Podrás cambiarla o apagarla en cualquier momento.</p>
+      <div class="acciones">
+        <button id="btn-confirmar-permiso" type="button" class="btn btn-primario">Aceptar y Encender Cámara</button>
+        <button id="btn-cancelar-permiso" type="button" class="btn btn-secundario">Ahora no</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>
